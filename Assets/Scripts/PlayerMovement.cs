@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -16,10 +17,24 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
+        Vector2 input = Vector2.zero;
 
-        Vector3 movement = new Vector3(horizontal, 0f, vertical).normalized;
+        if (Keyboard.current != null)
+        {
+            if (Keyboard.current.wKey.isPressed)
+                input.y += 1;
+
+            if (Keyboard.current.sKey.isPressed)
+                input.y -= 1;
+
+            if (Keyboard.current.dKey.isPressed)
+                input.x += 1;
+
+            if (Keyboard.current.aKey.isPressed)
+                input.x -= 1;
+        }
+
+        Vector3 movement = new Vector3(input.x, 0f, input.y).normalized;
 
         // Move the player
         Vector3 velocity = rb.linearVelocity;
@@ -40,7 +55,9 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Jump
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Keyboard.current != null &&
+            Keyboard.current.spaceKey.wasPressedThisFrame &&
+            isGrounded)
         {
             rb.AddForce(
                 Vector3.up * jumpForce,
