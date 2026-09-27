@@ -55,14 +55,9 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Jump
-        if (Keyboard.current != null &&
-            Keyboard.current.spaceKey.wasPressedThisFrame &&
-            isGrounded)
+        if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame && isGrounded)
         {
-            rb.AddForce(
-                Vector3.up * jumpForce,
-                ForceMode.Impulse
-            );
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
             isGrounded = false;
         }
