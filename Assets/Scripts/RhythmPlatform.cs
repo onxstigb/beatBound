@@ -10,6 +10,9 @@ public class RhythmPlatform : MonoBehaviour
     public float pulseAmount = 1.15f;
     public float pulseSpeed = 8f;
 
+    // Turn this off for platforms that should start inactive
+    public bool startActive = true;
+
     private int beatCount = 0;
 
     void Start()
@@ -21,8 +24,8 @@ public class RhythmPlatform : MonoBehaviour
 
         BeatManager.Instance.OnBeat += ReactToBeat;
 
-        // Start active
-        SetPlatformState(true);
+        // Set the starting state
+        SetPlatformState(startActive);
     }
 
     void Update()
@@ -39,12 +42,22 @@ public class RhythmPlatform : MonoBehaviour
     {
         beatCount++;
 
-        // Repeat every 4 beats
         int patternBeat = beatCount % 4;
 
-        // Beats 1 and 2 = active
-        // Beats 3 and 4 = inactive
-        bool shouldBeActive = patternBeat == 1 || patternBeat == 2;
+        // Normal pattern:
+        // Beat 1 = active
+        // Beat 2 = active
+        // Beat 3 = inactive
+        // Beat 4 = inactive
+
+        bool shouldBeActive =
+            patternBeat == 1 || patternBeat == 2;
+
+        // Reverse the pattern if this platform starts inactive
+        if (!startActive)
+        {
+            shouldBeActive = !shouldBeActive;
+        }
 
         SetPlatformState(shouldBeActive);
 
