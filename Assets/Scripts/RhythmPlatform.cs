@@ -7,10 +7,10 @@ public class RhythmPlatform : MonoBehaviour
 
     private Vector3 originalScale;
 
-    private bool isActive = true;
-
     public float pulseAmount = 1.15f;
     public float pulseSpeed = 8f;
+
+    private int beatCount = 0;
 
     void Start()
     {
@@ -21,7 +21,8 @@ public class RhythmPlatform : MonoBehaviour
 
         BeatManager.Instance.OnBeat += ReactToBeat;
 
-        platformRenderer.material.color = Color.green;
+        // Start active
+        SetPlatformState(true);
     }
 
     void Update()
@@ -36,14 +37,26 @@ public class RhythmPlatform : MonoBehaviour
 
     void ReactToBeat()
     {
-        isActive = !isActive;
+        beatCount++;
 
-        platformCollider.enabled = isActive;
+        // Repeat every 4 beats
+        int patternBeat = beatCount % 4;
+
+        // Beats 1 and 2 = active
+        // Beats 3 and 4 = inactive
+        bool shouldBeActive = patternBeat == 1 || patternBeat == 2;
+
+        SetPlatformState(shouldBeActive);
 
         // Pulse on every beat
         transform.localScale = originalScale * pulseAmount;
+    }
 
-        if (isActive)
+    void SetPlatformState(bool active)
+    {
+        platformCollider.enabled = active;
+
+        if (active)
         {
             platformRenderer.material.color = Color.green;
         }

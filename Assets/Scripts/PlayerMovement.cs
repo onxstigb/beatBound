@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,6 +7,11 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 6f;
     public float jumpForce = 7f;
     public float rotationSpeed = 10f;
+
+    public Transform respawnPoint;
+
+    public TextMeshProUGUI respawnText;
+    public float respawnMessageTime = 1f;
 
     private Rigidbody rb;
     private bool isGrounded;
@@ -36,13 +42,11 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 movement = new Vector3(input.x, 0f, input.y).normalized;
 
-        // Move the player
         Vector3 velocity = rb.linearVelocity;
         velocity.x = movement.x * moveSpeed;
         velocity.z = movement.z * moveSpeed;
         rb.linearVelocity = velocity;
 
-        // Rotate toward movement direction
         if (movement.magnitude > 0.1f)
         {
             Quaternion targetRotation = Quaternion.LookRotation(movement);
@@ -54,12 +58,16 @@ public class PlayerMovement : MonoBehaviour
             );
         }
 
-        // Jump
         if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame && isGrounded)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
             isGrounded = false;
+        }
+
+        if (transform.position.y < -10f)
+        {
+            Respawn();
         }
     }
 
@@ -70,4 +78,31 @@ public class PlayerMovement : MonoBehaviour
             isGrounded = true;
         }
     }
+
+void Respawn()
+{
+    if (respawnPoint == null)
+        return;
+
+    rb.linearVelocity = Vector3.zero;
+    rb.angularVelocity = Vector3.zero;
+
+    transform.position = respawnPoint.position;
+
+    if (respawnText != null)
+    {
+        respawnText.gameObject.SetActive(true);
+
+        CancelInvoke(nameof(HideRespawnMessage));
+        Invoke(nameof(HideRespawnMessage), respawnMessageTime);
+    }
+}
+
+void HideRespawnMessage()
+{
+    if (respawnText != null)
+    {
+        respawnText.gameObject.SetActive(false);
+    }
+}
 }
