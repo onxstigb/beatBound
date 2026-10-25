@@ -77,6 +77,13 @@ public class PlayerMovement : MonoBehaviour
         {
             isGrounded = true;
         }
+
+        if (collision.gameObject.CompareTag("EnemyBullet"))
+        {
+            Respawn();
+            collision.gameObject.SetActive(false);
+
+        }
     }
 
 void Respawn()

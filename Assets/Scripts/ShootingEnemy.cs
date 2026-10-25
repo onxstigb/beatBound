@@ -16,6 +16,10 @@ public class ShootingEnemy : MonoBehaviour
 
     public bool startActive = false;
 
+    public float bulletSpeed = 8f;
+
+    public Transform player;
+
     private int beatCount = 0;
 
     
@@ -39,6 +43,8 @@ public class ShootingEnemy : MonoBehaviour
             originalScale,
             pulseSpeed * Time.deltaTime
         );
+
+        
     }
 
 
@@ -63,15 +69,48 @@ public class ShootingEnemy : MonoBehaviour
             shouldBeActive = !shouldBeActive;
         }
 
+        SetEnemyState(shouldBeActive);
+
         // Pulse on every beat
         transform.localScale = originalScale * pulseAmount;
     }
 
+    void SetEnemyState(bool active)
+    {
+        enemyCollider.enabled = active;
+
+        if (active)
+        {
+            enemyRenderer.material.color = Color.red;
+            fire();
+        }
+        else
+        {
+            enemyRenderer.material.color = Color.gray;
+        }
+    }
+
+
+
     void fire()
     {
-        if(bullets.Count == 5)
+        if(bullets.Count == 10)
         {
-            bullets[bullets.Count - 1].GetComponent<Bullet>().DestroyBullet();
+            GameObject target = bullets[0];
+            bullets.RemoveAt(0);
+            Destroy(target);
         }
+        
+        
+        GameObject bullet = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        bullet.layer = LayerMask.NameToLayer("Bullets");
+        bullet.transform.position = transform.position;
+        bullet.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+        bullet.tag = "EnemyBullet";
+        bullet.AddComponent<Rigidbody>();
+        bullet.GetComponent<Rigidbody>().useGravity = false;
+        bullet.GetComponent<Rigidbody>().linearVelocity = (player.position - transform.position).normalized * bulletSpeed;
+        bullets.Add(bullet);
+
     }
 }
