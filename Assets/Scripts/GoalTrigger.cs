@@ -3,6 +3,7 @@ using UnityEngine;
 public class GoalTrigger : MonoBehaviour
 {
     public GameObject levelCompleteText;
+    public AudioSource musicSource;
 
     private bool levelComplete = false;
 
@@ -15,6 +16,11 @@ public class GoalTrigger : MonoBehaviour
             if (levelCompleteText != null)
             {
                 levelCompleteText.SetActive(true);
+            }
+
+            if (musicSource != null)
+            {
+                musicSource.Stop();
             }
 
             Debug.Log("LEVEL COMPLETE!");
