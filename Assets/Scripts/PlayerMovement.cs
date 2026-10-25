@@ -88,7 +88,7 @@ void Respawn()
     rb.angularVelocity = Vector3.zero;
 
     transform.position = respawnPoint.position;
-
+        
     if (respawnText != null)
     {
         respawnText.gameObject.SetActive(true);
