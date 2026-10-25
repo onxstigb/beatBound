@@ -21,6 +21,6 @@ public class ThirdPersonCamera : MonoBehaviour
             followSpeed * Time.deltaTime
         );
 
-        transform.LookAt(player);
+        //transform.LookAt(player);
     }
 }
