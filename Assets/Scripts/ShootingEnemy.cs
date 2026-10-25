@@ -4,8 +4,6 @@ public class ShootingEnemy : MonoBehaviour
 {
     private Renderer enemyRenderer;
 
-    private GameObject[5] bullets;
-
     private Collider enemyCollider;
 
     private Vector3 originalScale;
@@ -67,11 +65,4 @@ public class ShootingEnemy : MonoBehaviour
         transform.localScale = originalScale * pulseAmount;
     }
 
-    void fire()
-    {
-        if(bullets.Count == 5)
-        {
-            bullets[-1]
-        }
-    }
 }
