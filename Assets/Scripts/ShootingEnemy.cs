@@ -4,7 +4,7 @@ public class ShootingEnemy : MonoBehaviour
 {
     private Renderer enemyRenderer;
 
-    private GameObject[5] bullets;
+    private System.Collections.Generic.List<GameObject> bullets = new System.Collections.Generic.List<GameObject>();
 
     private Collider enemyCollider;
 
@@ -71,7 +71,7 @@ public class ShootingEnemy : MonoBehaviour
     {
         if(bullets.Count == 5)
         {
-            bullets[-1]
+            bullets[bullets.Count - 1].GetComponent<Bullet>().DestroyBullet();
         }
     }
 }
