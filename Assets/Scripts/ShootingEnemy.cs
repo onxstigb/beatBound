@@ -61,7 +61,7 @@ public class ShootingEnemy : MonoBehaviour
         // Beat 4 = inactive
 
         bool shouldBeActive =
-            patternBeat == 1 || patternBeat == 2;
+            patternBeat == 1 || patternBeat == 3;
 
         // Reverse the pattern if this platform starts inactive
         if (!startActive)

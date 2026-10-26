@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BeatManager : MonoBehaviour
 {
-    public float bpm = 120f;
+    public float bpm = 98f;
 
     public static BeatManager Instance;
 
@@ -28,7 +28,6 @@ public class BeatManager : MonoBehaviour
 
             OnBeat?.Invoke();
 
-            Debug.Log("BEAT!");
         }
     }
 }
