@@ -117,6 +117,7 @@ public class ShootingEnemy : MonoBehaviour
         
         GameObject bullet = GameObject.CreatePrimitive(PrimitiveType.Cube);
         bullet.layer = LayerMask.NameToLayer("Bullets");
+        bullet.GetComponent<Renderer>().material.color = Color.red;
         bullet.transform.position = transform.position;
         bullet.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
         bullet.tag = "EnemyBullet";
