@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ShootingEnemy : MonoBehaviour
@@ -9,6 +10,8 @@ public class ShootingEnemy : MonoBehaviour
     private Collider enemyCollider;
 
     private Vector3 originalScale;
+
+    private bool PlayerInRange;
 
     public float pulseAmount = 1.15f;
 
@@ -47,6 +50,15 @@ public class ShootingEnemy : MonoBehaviour
         
     }
 
+    public void ChildTriggerEnter(Collider other)
+    {
+        PlayerInRange = true;
+    }
+
+    public void ChildTriggerExit(Collider other)
+    {
+        PlayerInRange = false;
+    }
 
     void ReactToBeat()
     {
@@ -79,8 +91,9 @@ public class ShootingEnemy : MonoBehaviour
     {
         enemyCollider.enabled = active;
 
-        if (active)
+        if (active && PlayerInRange)
         {
+            
             enemyRenderer.material.color = Color.red;
             fire();
         }
@@ -104,6 +117,7 @@ public class ShootingEnemy : MonoBehaviour
         
         GameObject bullet = GameObject.CreatePrimitive(PrimitiveType.Cube);
         bullet.layer = LayerMask.NameToLayer("Bullets");
+        bullet.GetComponent<Renderer>().material.color = Color.red;
         bullet.transform.position = transform.position;
         bullet.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
         bullet.tag = "EnemyBullet";
