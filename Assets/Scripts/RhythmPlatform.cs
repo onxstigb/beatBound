@@ -69,14 +69,18 @@ public class RhythmPlatform : MonoBehaviour
     {
         platformCollider.enabled = active;
 
+        Color color = platformRenderer.material.color;
+
         if (active)
         {
-            platformRenderer.material.color = Color.green;
+            color.a = 1f;
         }
         else
         {
-            platformRenderer.material.color = Color.red;
+            color.a = 0.1f;
         }
+
+        platformRenderer.material.color = color;
     }
 
     void OnDestroy()

@@ -70,7 +70,12 @@ public class PlayerMovement : MonoBehaviour
             Respawn();
         }
     }
+    public float gravityMulitiplier = 2.5f;
 
+    private void FixedUpdate()
+    {
+        rb.AddForce(Physics.gravity * (gravityMulitiplier - 1f), ForceMode.Acceleration);
+    }
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Platform"))
